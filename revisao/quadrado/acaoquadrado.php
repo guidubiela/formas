@@ -3,6 +3,7 @@
     $lado = isset($_POST['lado']) ? $_POST['lado']: 0;
     $cor = isset($_POST['cor']) ? $_POST['cor']: '';
     $un = isset($_POST['un']) ? $_POST['un']: '';
+    $idquadro = isset($_POST['idquadro']) ? $_POST['idquadro'] : 0;
 
     $acao = "";
     switch($_SERVER['REQUEST_METHOD']) {
@@ -10,21 +11,10 @@
         case 'POST': $acao = isset($_POST['acao']) ? $_POST['acao'] : ""; break;
     }
 
-    if ($acao == 'salvar'){
+    if ($id > 0) {
         try{
             require_once('../classes/quadrado.class.php');
-            $quadrado = new Quadrado($id,$lado,$cor,$un);
-            $quadrado->inserir();
-            header('location:index.php');   
-
-        }catch(Exception $e){
-            echo "Erro: ".$e->getMessage();
-        }
-    }
-    else if ($acao == 'editar'){
-        try{
-            require_once('../classes/quadrado.class.php');
-            $quadrado = new Quadrado($id,$lado,$cor,$un);
+            $quadrado = new Quadrado($id,$lado,$cor,$un,$idquadro);
             $quadrado->editar();
             header('location:index.php');   
 
@@ -32,11 +22,11 @@
             echo "Erro: ".$e->getMessage();
         }
     }
-    else if ($acao == 'excluir'){
+    else {
         try{
             require_once('../classes/quadrado.class.php');
-            $quadrado = new Quadrado($id,$lado,$cor,$un);
-            $quadrado->excluir();
+            $quadrado = new Quadrado($id,$lado,$cor,$un,$idquadro);
+            $quadrado->inserir();
             header('location:index.php');   
 
         }catch(Exception $e){
@@ -44,10 +34,15 @@
         }
     }
 
-    function findById($id){
-        $conexao = new PDO(MYSQL_DNS, MYSQL_USUARIO, MYSQL_SENHA);
-        $conexao = $conexao->query("SELECT * FROM quadrado WHERE id = $id;");
-        $result = $conexao->fetch(PDO::FETCH_ASSOC);
-        return $result;
+    if ($acao == 'excluir'){
+        try{
+            require_once('../classes/quadrado.class.php');
+            $quadrado = new Quadrado($id,$lado,$cor,$un,$idquadro);
+            $quadrado->excluir();
+            header('location:index.php');   
+
+        }catch(Exception $e){
+            echo "Erro: ".$e->getMessage();
+        }
     }
 ?>  

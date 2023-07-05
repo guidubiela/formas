@@ -3,7 +3,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="<?php echo URL_BASE.'index.php'; ?>">Início</a>
+          <a class="nav-link active" aria-current="page" href="<?php echo URL_BASE.'quadro/index.php'; ?>">Início</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<?php echo URL_BASE.'quadrado/index.php'; ?>">Quadrado</a>

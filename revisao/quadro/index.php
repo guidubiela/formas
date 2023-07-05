@@ -2,12 +2,13 @@
 <html lang="en">
 <?php 
     require_once '../config/config.inc.php';
+    require_once('../classes/quadro.class.php');
 
     $acao = isset($_GET['acao']) ? $_GET['acao'] : '';
     $id = isset($_GET['id']) ? $_GET['id']:0;
 
     if ($id > 0){
-        $dados = findById($id);
+        $dados = Quadro::listar(1,$id)[0];
     }
 ?>
 <head>
@@ -34,5 +35,20 @@
             <?php } ?>
         </form>
     </section>
+    <?php
+        $listar = Quadro::listar();
+        foreach($listar as $item){
+            $q = new Quadro($item['id'], $item['nome']);
+            echo "<a href='index.php?acao=editar&id=".$q->getId()."'>".$q->getNome()."</a><br>";
+        }
+
+        if ($acao == 'editar'){
+            $listar = Quadro::listar(1,$id);
+            foreach($listar as $item){
+                $q = new Quadro($item['id'], $item['nome']);
+                $q->listarFormas();
+            }
+        }
+    ?>
 </body>
 </html>

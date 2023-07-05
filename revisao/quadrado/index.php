@@ -1,20 +1,11 @@
 <?php
-require_once('../classes/quadrado.class.php');
-$quadrado = new Quadrado('',1,'x','x','x');
+    require_once('../classes/quadrado.class.php');
+    $acao = isset($_GET['acao']) ? $_GET['acao'] : '';
+    $id = isset($_GET['id'])?$_GET['id']:0;
 
-$acao = isset($_GET['acao']) ? $_GET['acao'] : '';
-
-function findById($id){
-    $conexao = Database::conectar();
-    $conexao = $conexao->query("SELECT * FROM quadrado WHERE idquadrado = $id;");
-    $result = $conexao->fetch(PDO::FETCH_ASSOC);
-    return $result;
-}
-
-$id = isset($_GET['id'])?$_GET['id']:0;
-if ($id > 0){
-   $dados = findById($id);
-}
+    if ($id > 0){
+        $dados = Quadrado::listar(1,$id)[0];
+    }
 ?>
 
 <!DOCTYPE html>
@@ -80,16 +71,15 @@ if ($id > 0){
     </section>
     <hr>
     <div style='height:70vw'>
-    <?php
-        $lista = $quadrado->listar();
-        foreach($lista as $item){
-            $q = new Quadrado($item['idquadrado'],$item['lado'],$item['cor'],$item['un'],$item['idquadro']);
-            echo '<a draggable="true" href="index.php?acao=editar&id='.$q->getId().'">';
-            echo $q->desenhar();
-            echo '</a>';
-        }
-    ?>
-
+        <?php
+            $lista = Quadrado::listar();
+            foreach($lista as $item){
+                $q = new Quadrado($item['idquadrado'],$item['lado'],$item['cor'],$item['un'],$item['idquadro']);
+                echo '<a draggable="true" href="index.php?acao=editar&id='.$q->getId().'">';
+                echo $q->desenhar();
+                echo '</a>';
+            }
+        ?>
     </div>
     
 </body>

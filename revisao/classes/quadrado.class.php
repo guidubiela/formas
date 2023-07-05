@@ -62,7 +62,7 @@ class Quadrado extends Forma{
         
     }
   
-    public function listar($tipo = 0, $info = ''){
+    public static function listar($tipo = 0, $info = ''){
         $sql = 'SELECT * FROM quadrado';
         switch($tipo){
             case 1: $sql .= ' WHERE idquadrado = :info'; break;
